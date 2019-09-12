@@ -35,3 +35,26 @@ export const getStickerArrayNonUnique = (n, delimeter, array) => {
   return result.join(delimeter);
 };
 
+export const createElement = (template) => {
+  const el = document.createElement(`div`);
+  el.innerHTML = template.trim();
+  return el.firstChild;
+};
+
+export const render = (container, element, position) => {
+  switch (position) {
+    case `afterbegin`:
+      container.prepend(element);
+      break;
+    case `beforeend`:
+      container.append(element);
+      break;
+  }
+};
+
+export const unrender = (element) => {
+  if (element) {
+    element.remove();
+  }
+};
+

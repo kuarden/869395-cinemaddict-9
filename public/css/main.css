@@ -302,7 +302,6 @@ button {
   padding-bottom: var(--vertical-gap);
 }
 
-
 .film-card {
   flex-basis: 230px;
   flex-shrink: 0;

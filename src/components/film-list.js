@@ -1,22 +1,36 @@
-import {createFilmCardTemplate} from './film-card';
-import {films} from './../data';
+import {createElement} from "../common";
 
-const listFilm = films.slice();
-
-export const renderFilms = (initialFilms, count) => {
-  if (initialFilms.length > 0) {
-    return initialFilms.splice(0, count).map(createFilmCardTemplate).join(``);
+export class FilmList {
+  constructor() {
+    this._element = null;
   }
-  return ``;
-};
+   
+  get element() {
+    if (!this._element) {
+      this._element = createElement(this.template);
+    }
 
-export {listFilm};
+    return this._element;
+  }
 
-export const createFilmListTemplate = (number) =>
-  `<section class="films">
-    <section class="films-list">
-      <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
-      <div class="films-list__container">
-        ${renderFilms(listFilm, number)}
-      </div>
-  </section>`;
+  get removeElement(){
+    this._element = null;
+  }
+
+  get template() {
+    return `<section class="films">
+        <section class="films-list">
+          <h2 class="films-list__title">All movies</h2>
+          <div class="films-list__container"></div>
+        </section>
+        <section class="films-list">
+          <h2 class="films-list__title">Top rated</h2>
+          <div class="films-list__container"></div>
+        </section>
+        <section class="films-list">
+          <h2 class="films-list__title">Most commented</h2>
+          <div class="films-list__container"></div>
+        </section>          
+      </section>`;
+  }
+}
