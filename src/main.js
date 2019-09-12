@@ -75,7 +75,7 @@ for (let i = 0; i < FILMS_RECOMMENDED; i++){
 }
 
 const buttonShowMore = document.querySelector(`.films-list`);
-render(filmList, new ButtonShowMore().element, `beforeend`);
+render(buttonShowMore, new ButtonShowMore().element, `beforeend`);
 
 const statistics = document.querySelector(`.footer__statistics`);
 statistics.textContent = `${films.length} movies inside`;
