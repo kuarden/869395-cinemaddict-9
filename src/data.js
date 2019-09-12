@@ -3,8 +3,7 @@ import {
     getRandomInt,
     getRandomRange,
     getRandomElementOfArray,
-    getStickerArrayUnique,
-    getStickerArrayNonUnique,    
+    getStickerArrayUnique, 
     getDate
 } from './common.js';
 
@@ -164,12 +163,14 @@ const COMMENTS = [
     `The film is complete shit, as it is generally allowed by censorship.`
 ];
 
-const getComments = () => ({
+export const getComment = () => ({
     date: getDate(),
     author: getRandomElementOfArray(AUTHOR_COMMENTS),
     emoji: getRandomElementOfArray(EMOJI),
     text: getRandomElementOfArray(COMMENTS)
 });
+
+export const getComments = () => new Array(getRandomInt(MAX_COMMENT)).fill().map(getComment);
 
 const getFilm = () => ({
     genres: getStickerArrayUnique(MAX_GENRES_COUNT, `, `, GENRES),
@@ -184,17 +185,13 @@ const getFilm = () => ({
     actors: getStickerArrayUnique(MAX_ACTORS_COUNT, `, `, ACTORS),
     country: getStickerArrayUnique(MAX_COUNTRIES_COUNT, `, `, COUNTRIES),
     age: getRandomElementOfArray(AGE_CATEGORY),
-    comments: getRandomInt(MAX_COMMENT),
+    comments: getComments(getRandomRange(1, MAX_COMMENT)),
     watchlist: getRandomBool(),
     watched: getRandomBool(),
     favorite: getRandomBool()
 }); 
 
-const listFilm = (count) => (
-    new Array(count).fill().map(getFilm)
-);
-
-export const films = listFilm(FILMS_NUMBER);
+export const films = new Array(FILMS_NUMBER).fill().map(getFilm);
 
 export const groupedFilms = films.reduce(({watchlist, watched, favorite}, film) => {
     watchlist += film.watchlist;

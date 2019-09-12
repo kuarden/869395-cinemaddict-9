@@ -6,5 +6,5 @@ export const MAX_DESCRIPTIONS_COUNT = 3;
 export const MAX_COUNTRIES_COUNT = 3;
 export const MAX_GENRES_COUNT = 3;
 export const MAX_ACTORS_COUNT = 3;
-export const MAX_COMMENT = 10;
+export const MAX_COMMENT = 5;
 export const MAX_RATING = 100;
