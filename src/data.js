@@ -44,7 +44,7 @@ const TITLES = [
     `Les Miserables`,
     `Catch Me If You Can`,
     `Edward Scissorhands`,
-    `Inglourious Basterds`,
+    `Inglourious Basterds`,    
     `Gangs of New York`
 ];
 
