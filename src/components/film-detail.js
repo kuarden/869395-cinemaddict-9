@@ -28,7 +28,7 @@ export class FilmDetail {
     return this._element;
   }
 
-  removeElement(){
+  get removeElement(){
     this._element = null;
   }
 
