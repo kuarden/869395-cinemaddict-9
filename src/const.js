@@ -1,4 +1,4 @@
-export const FILMS_NUMBER = 15;
+export const FILMS_NUMBER = 21;
 export const FILMS_OF_SCREEN = 5;
 export const FILMS_BEST_RATING = 2;
 export const FILMS_RECOMMENDED = 2;

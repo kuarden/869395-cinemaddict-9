@@ -1,8 +1,8 @@
-import {createElement} from "../common";
-import {createCommentsTemplate} from "./comment";
+import {AbstractComponent} from "./abstract-component";
 
-export class FilmDetail {
+export class FilmDetail extends AbstractComponent{
   constructor(filmData) {
+    super();
     this._genres = filmData.genres;
     this._title = filmData.title;
     this._poster = filmData.poster;
@@ -19,17 +19,6 @@ export class FilmDetail {
     this._watchlist = filmData.watchlist;
     this._watched = filmData.watched;
     this._favorite = filmData.favorite;
-  }
-   
-  get element() {
-    if (!this._element) {
-      this._element = createElement(this.template);
-    }
-    return this._element;
-  }
-
-  get removeElement(){
-    this._element = null;
   }
 
   get template() {
