@@ -1,20 +1,10 @@
-import {createElement} from "../common";
+import {AbstractComponent} from "./abstract-component";
 
-export class NoFilmsMessage {
+export class NoFilmsMessage extends AbstractComponent {
   constructor() {
+    super();
     }
-   
-    get element() {
-      if (!this._element) {
-        this._element = createElement(this.template);
-      }
-      return this._element;
-    }
-
-    get removeElement(){
-      this._element = null;
-    }
-
+    
     get template() {
         return `<main class="main">
         <div class="result">

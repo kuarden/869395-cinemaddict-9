@@ -32,7 +32,6 @@ const renderFilm = (container, dataFilm) => {
   const filmCard = new FilmCard(dataFilm);
   const filmDetail = new FilmDetail(dataFilm);
   
-
   filmCard.element.querySelector(`.film-card__poster`).addEventListener(`click`, () => {
     render(filmList, filmDetail.element, `beforeend`)
     

@@ -1,25 +1,11 @@
-import {createElement} from "../common";
+import {AbstractComponent} from "./abstract-component";
 
-export class Menu {
-  constructor(
-    groupedFilms) {
-      this._watchlist = groupedFilms.watchlist;
-      this._watched = groupedFilms.watched;
-      this._favorite = groupedFilms.favorite;
-
-console.log(this);
-
-    }
-   
-  get element() {
-    if (!this._element) {
-      this._element = createElement(this.template);
-    }
-    return this._element;
-  }
-
-  get removeElement(){
-    this._element = null;
+export class Menu extends AbstractComponent {
+  constructor(groupedFilms) {
+    super();
+    this._watchlist = groupedFilms.watchlist;
+    this._watched = groupedFilms.watched;
+    this._favorite = groupedFilms.favorite;
   }
 
   get template() {

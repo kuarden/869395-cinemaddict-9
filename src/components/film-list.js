@@ -1,19 +1,8 @@
-import {createElement} from "../common";
+import {AbstractComponent} from "./abstract-component";
 
-export class FilmList {
+export class FilmList extends AbstractComponent {
   constructor() {
-    this._element = null;
-  }
-   
-  get element() {
-    if (!this._element) {
-      this._element = createElement(this.template);
-    }
-
-    return this._element;
-  }
-
-  get removeElement(){
+    super();
     this._element = null;
   }
 

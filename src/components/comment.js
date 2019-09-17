@@ -1,22 +1,12 @@
-import {createElement} from "../common";
+import {AbstractComponent} from "./abstract-component";
 
-export class Comment {
+export class Comment extends AbstractComponent{
   constructor(dataComment) {
+    super();
     this._date = dataComment.date;
     this._author = dataComment.author;
     this._emoji = dataComment.emoji;
     this._text = dataComment.text;
-  }
-
-  get element() {
-    if (!this._element) {
-      this._element = createElement(this.template);
-    }
-    return this._element;
-  }
-
-  get removeElement(){
-    this._element = null;
   }
 
   get template() {
