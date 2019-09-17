@@ -75,12 +75,10 @@ export class PageController {
     }
     
     if (FILMS_NUMBER === 0) {
-      const noFilmsMessage = document.querySelector(`.main`);
-      render(noFilmsMessage, new NoFilmsMessage().element, `beforeend`);
+      render(this._container, new NoFilmsMessage().element, `beforeend`);
     }
     else{
-      const filmList = document.querySelector(`.main`);
-      render(filmList, new FilmList().element, `beforeend`);
+      render(this._container, new FilmList().element, `beforeend`);
       
       const filmAll = document.querySelectorAll(`.films-list__container`)[0];
       const renderAllFilms = (filmsIndexStart, filmIndexEnd) => {
