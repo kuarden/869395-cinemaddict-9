@@ -33,6 +33,9 @@ const renderFilm = (container, dataFilm) => {
   const filmDetail = new FilmDetail(dataFilm);
   
   filmCard.element.querySelector(`.film-card__poster`).addEventListener(`click`, () => {
+    
+    console.log(filmList);
+
     render(filmList, filmDetail.element, `beforeend`)
     
     const btnClose = filmDetail.element.querySelector(`.film-details__close-btn`);
@@ -90,6 +93,7 @@ if (FILMS_NUMBER === 0) {
 }
 else{
   const filmList = document.querySelector(`.main`);
+  
   render(filmList, new FilmList().element, `beforeend`);
   
   const filmAll = document.querySelectorAll(`.films-list__container`)[0];
