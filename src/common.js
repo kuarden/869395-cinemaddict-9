@@ -41,7 +41,7 @@ export const createElement = (template) => {
   return el.firstChild;
 };
 
-export const render = (container, element, position) => {
+export const render = (container, element, position) => { 
   switch (position) {
     case `afterbegin`:
       container.prepend(element);
@@ -58,3 +58,8 @@ export const unrender = (element) => {
   }
 };
 
+export const clear = (element) => {
+  if (element) {
+    element.innerHTML = ``;
+  }
+};
