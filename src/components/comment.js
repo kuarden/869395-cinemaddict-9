@@ -1,12 +1,12 @@
 import {AbstractComponent} from "./abstract-component";
 
 export class Comment extends AbstractComponent{
-  constructor(dataComment) {
+  constructor(data) {
     super();
-    this._date = dataComment.date;
-    this._author = dataComment.author;
-    this._emoji = dataComment.emoji;
-    this._text = dataComment.text;
+    this._date = data.date;
+    this._author = data.author;
+    this._emoji = data.emoji;
+    this._text = data.text;
   }
 
   get template() {

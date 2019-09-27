@@ -1,24 +1,24 @@
 import {AbstractComponent} from "./abstract-component";
 
 export class FilmDetail extends AbstractComponent{
-  constructor(filmData) {
+  constructor(data) {
     super();
-    this._genres = filmData.genres;
-    this._title = filmData.title;
-    this._poster = filmData.poster;
-    this._releaseDate = filmData.releaseDate;
-    this._duration = filmData.duration;
-    this._rating = filmData.rating;
-    this._description = filmData.description;
-    this._director = filmData.director;
-    this._writers = filmData.writers;
-    this._actors = filmData.actors;
-    this._country = filmData.country;
-    this._age = filmData.age;
-    this._comments = filmData.comments;
-    this._watchlist = filmData.watchlist;
-    this._watched = filmData.watched;
-    this._favorite = filmData.favorite;
+    this._genres = data.genres;
+    this._title = data.title;
+    this._poster = data.poster;
+    this._releaseDate = data.releaseDate;
+    this._duration = data.duration;
+    this._rating = data.rating;
+    this._description = data.description;
+    this._director = data.director;
+    this._writers = data.writers;
+    this._actors = data.actors;
+    this._country = data.country;
+    this._age = data.age;
+    this._comments = data.comments;
+    this._watchlist = data.watchlist;
+    this._watched = data.watched;
+    this._favorite = data.favorite;
   }
 
   get template() {
@@ -78,16 +78,20 @@ export class FilmDetail extends AbstractComponent{
           </div>
         </div>
         <section class="film-details__controls">
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${this._watchlist == 1 ? 'checked': ``}>
-          <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${this._watched == 1 ? 'checked': ``}>
-          <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${this._favorite == 1 ? 'checked': ``}>
-          <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
+          <input type="checkbox" data-control-type="watchlist" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${this._watchlist == 1 ? 'checked': ``}>
+          <label for="watchlist" data-control-type="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
+          <input type="checkbox" data-control-type="watched" class="film-details__control-input visually-hidden" id="watched" name="watched" ${this._watched == 1 ? 'checked': ``}>
+          <label for="watched" data-control-type="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
+          <input type="checkbox" data-control-type="favorite" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${this._favorite == 1 ? 'checked': ``}>
+          <label for="favorite" data-control-type="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
         </section>
       </div>
-      <div class="form-details__bottom-container">
-
+      <div>
+        <div class="form-details__film-rating"></div>
+        <h1></h1>
+      </div>
+      <div>
+        <div class="form-details__bottom-container"></div>
       </div>
     </form>
   </section>`;
