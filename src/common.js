@@ -6,6 +6,11 @@ export const getRandomRange = (min, max) => Math.floor(Math.random() * (max - mi
 
 export const getRandomElementOfArray = (array) => array[Math.floor(Math.random() * array.length)];
 
+export const getRandomDate = (dateBegin, dateEnd) => {
+  var date = new Date(+dateBegin + Math.random() * (dateEnd - dateBegin));
+  return date;
+}
+
 export const getDate = (date) => dateFormat.format(date);
 
 export const dateFormat = new Intl.DateTimeFormat(`en-GB`, {

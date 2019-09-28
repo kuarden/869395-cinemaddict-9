@@ -1,4 +1,6 @@
 import {AbstractComponent} from "./abstract-component";
+import moment from 'moment';
+import 'moment-duration-format';
 
 export class FilmCard extends AbstractComponent{
   constructor(data) {
@@ -22,10 +24,10 @@ export class FilmCard extends AbstractComponent{
       <p class="film-card__rating">${this._rating}</p>
       <p class="film-card__info">
       <div>
-         <span class="film-card__year">${this._releaseDate} year</span>
+          <span class="film-card__year">${moment(this._releaseDate).format(`MMMM YYYY`)}</span>
         </div>
         <div>
-          <span class="film-card__duration">${this._duration}</span>
+          <span class="film-card__year">${moment.duration(this._duration, `minutes`).format(`h[h] m[m]`)}</span>
         </div>
           <div>
         <span class="film-card__genre">${this._genres}</span>

@@ -4,7 +4,7 @@ import {
     getRandomRange,
     getRandomElementOfArray,
     getStickerArrayUnique, 
-    getDate
+    getRandomDate
 } from './common.js';
 
 import {
@@ -110,15 +110,15 @@ const COUNTRIES = [
 ];
 
 const RELEASE_DATE = [
-    `1974`,
-    `1990`,
-    `1996`,
-    `1998`,
-    `2006`,
-    `2009`,
-    `2010`,
-    `2015`,
-    `2018`
+    `03/01/1974`,
+    `09/01/1990`,
+    `03/01/1996`,
+    `10/01/1998`,
+    `11/01/2006`,
+    `02/01/2009`,
+    `12/01/2010`,
+    `07/01/2015`,
+    `05/01/2018`
 ];
 
 const AGE_CATEGORY = [
@@ -130,13 +130,13 @@ const AGE_CATEGORY = [
 ];
 
 const DURATION = [
-    `45 minutes`,
-    `1 hour 10 minutes`,
-    `1 hour 15 minutes`,
-    `1 hour 30 minutes`,
-    `1 hour 55 minutes`,
-    `2 hour 13 minutes`,
-    `2 hour 47 minutes`
+    45,
+    55,
+    75,
+    90,
+    115,
+    133,
+    157
 ];
 
 const AUTHOR_COMMENTS = [
@@ -164,7 +164,7 @@ const COMMENTS = [
 ];
 
 export const getComment = () => ({
-    date: getDate(),
+    date: getRandomDate(new Date(getRandomElementOfArray(RELEASE_DATE)),  new Date),
     author: getRandomElementOfArray(AUTHOR_COMMENTS),
     emoji: getRandomElementOfArray(EMOJI),
     text: getRandomElementOfArray(COMMENTS)
@@ -172,7 +172,7 @@ export const getComment = () => ({
 
 export const getComments = () => new Array(getRandomInt(MAX_COMMENT)).fill().map(getComment);
 
-const getFilm = () => ({
+const getFilm = () => ({   
     genres: getStickerArrayUnique(MAX_GENRES_COUNT, `, `, GENRES),
     title: getRandomElementOfArray(TITLES),
     poster: getRandomElementOfArray(POSTERS),

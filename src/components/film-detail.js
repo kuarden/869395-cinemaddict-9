@@ -1,4 +1,6 @@
 import {AbstractComponent} from "./abstract-component";
+import moment from 'moment';
+import 'moment-duration-format';
 
 export class FilmDetail extends AbstractComponent{
   constructor(data) {
@@ -22,7 +24,7 @@ export class FilmDetail extends AbstractComponent{
   }
 
   get template() {
-    return `<section class="film-details">
+     return `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
       <div class="form-details__top-container">
         <div class="film-details__close">
@@ -58,11 +60,11 @@ export class FilmDetail extends AbstractComponent{
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${this._releaseDate}</td>
+                <td class="film-details__cell">${moment(this._releaseDate).format(`MMMM YYYY`)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${this._duration}</td>
+                <td class="film-details__cell">${moment.duration(this._duration, `minutes`).format(`h [hour] m [minutes]`)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>

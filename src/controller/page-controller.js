@@ -10,6 +10,7 @@ import {FilmList} from '../components/film-list';
 import {MovieController} from './movie-controller.js';
 import {ButtonShowMore} from '../components/button-show-more';
 import {NoFilmsMessage} from '../components/no-films-message';
+import moment from 'moment';
   
 export class PageController {
   constructor(container, data) {
@@ -23,7 +24,7 @@ export class PageController {
     this._onChangeView = this._onChangeView.bind(this);   
   }  
   
-  init() {       
+  init() {   
     this._filmsCount = FILMS_OF_SCREEN;
     let buttonShowMoreVisible = true;
     
