@@ -17,7 +17,6 @@ export class FilmDetail extends AbstractComponent{
     this._actors = data.actors;
     this._country = data.country;
     this._age = data.age;
-    this._comments = data.comments;
     this._watchlist = data.watchlist;
     this._watched = data.watched;
     this._favorite = data.favorite;

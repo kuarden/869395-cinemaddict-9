@@ -151,8 +151,7 @@ const EMOJI = [
     `./images/emoji/angry.png`,
     `./images/emoji/puke.png`,
     `./images/emoji/sleeping.png`,
-    `./images/emoji/smile.png`,
-    `./images/emoji/trophy.png`
+    `./images/emoji/smile.png`
 ];
 
 const COMMENTS = [
@@ -167,7 +166,8 @@ export const getComment = () => ({
     date: getRandomDate(new Date(getRandomElementOfArray(RELEASE_DATE)),  new Date),
     author: getRandomElementOfArray(AUTHOR_COMMENTS),
     emoji: getRandomElementOfArray(EMOJI),
-    text: getRandomElementOfArray(COMMENTS)
+    text: getRandomElementOfArray(COMMENTS),
+    deleted: 0
 });
 
 export const getComments = () => new Array(getRandomInt(MAX_COMMENT)).fill().map(getComment);
