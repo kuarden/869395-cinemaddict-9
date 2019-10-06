@@ -2,7 +2,6 @@ import {films, groupedFilms} from './data';
 import {render} from "./common";
 import {Search} from './components/search';
 import {Profile} from './components/profile';
-import {Menu} from './components/menu';
 import {PageController} from './controller/page-controller';
 
 const header = document.querySelector(`.header`);
@@ -10,7 +9,6 @@ render(header, new Search().element, `beforeend`);
 render(header, new Profile().element, `beforeend`);
 
 const main = document.querySelector(`.main`);
-render(main, new Menu(groupedFilms).element, `afterbegin`);
 
 const pageController = new PageController(main, films);
 pageController.init();

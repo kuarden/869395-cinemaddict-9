@@ -12,7 +12,7 @@ export class MovieController {
     this._filmCard = new FilmCard(data);
     this._filmDetail = new FilmDetail(data);
     this._filmRating = new FilmRating(data);
-    this._comments = data.comments;
+    this._comments = this._comments = data.comments.filter(comment => comment.deleted === 0);
     this._onDataChange = onDataChange;
     this._onChangeView = onChangeView;
     this.init();
@@ -25,7 +25,7 @@ export class MovieController {
       document.removeEventListener(`keydown`, pressEsc);
     }
       
-    const pressEsc = (event) => {
+    const pressEsc = (event) => {     
       if (event.keyCode === 27){
         closeFilmDetail();
       }
@@ -63,7 +63,22 @@ export class MovieController {
        }
     }
 
+    const deleteComment = (container) => {
+      container.forEach((btn, commentNumber) => {            
+        btn.addEventListener(`click`, (event) => {                
+          const newData = this._data;
+          event.preventDefault();
+          event.target.closest(`.film-details__comment`).remove();
+          newData.comments[commentNumber].deleted = 1;       
+          this._onDataChange(newData, this._data);
+          this._filmDetail.element.querySelector(`.film-details__comments-count`).innerHTML = newData.comments.filter(comment => comment.deleted === 0).length;  
+        });
+      });  
+    }
+
     const renderFilmDetail = () => {     
+      event.preventDefault();
+      
       this._onChangeView();
 
       render(document.body, this._filmDetail.element, `beforeend`);
@@ -83,7 +98,7 @@ export class MovieController {
  
       const commentList = this._filmDetail.element.querySelector(`.form-details__bottom-container`);
       render(commentList, new CommentsList(this._comments.length).element, `beforeend`);
-  
+
       const comment = this._filmDetail.element.querySelector(`.film-details__comments-list`);
       for (let i = 0; i < this._comments.length; i++){
         render(comment, new Comment(this._comments[i]).element, `beforeend`);
@@ -98,13 +113,50 @@ export class MovieController {
         document.removeEventListener(`keydown`, pressEsc);
       });
 
-      commentList.querySelectorAll(`.film-details__emoji-label`).forEach((element) => {
-        element.addEventListener(`click`, () => {
-          const image = element.querySelector(`img`);
-          commentList.querySelector(`.film-details__add-emoji-label`).innerHTML = ``;
-          commentList.querySelector(`.film-details__add-emoji-label`).appendChild(
-            createElement(`<img src="${image.src}" width="55" height="55" alt="emoji">`));
+      const emojiList = this._filmDetail.element.querySelectorAll(`.film-details__emoji-list`);
+      emojiList.forEach((emoji) => {
+        emoji.addEventListener(`click`, (event) => {
+          if (event.target.tagName === `INPUT`) {
+            const emojiName = event.target.value;
+            const emojiContainer = commentList.querySelector(`.film-details__add-emoji-label`);  
+            emojiContainer.innerHTML = ``;
+            emojiContainer.appendChild(createElement(`<img src="./images/emoji/${emojiName}.png" id="${emojiName} "width="55" height="55" alt="emoji">`));
+          }
         });
+      });
+
+      const btnCommentDelete = this._filmDetail.element.querySelectorAll(`.film-details__comment-delete`);
+      deleteComment(btnCommentDelete);
+
+      commentInput.addEventListener(`keydown`, (event) => {
+        if (event.keyCode === 13){
+          const emojiContainer = commentList.querySelector(`.film-details__add-emoji-label`);            
+          if (emojiContainer.firstChild != null){
+            
+            const newData = this._data;  
+            const img = emojiContainer.firstChild.id.trim();
+            
+            const newComment = {    
+              date: new Date(),
+              author: `Yuri Voskoboinikov`,
+              emoji: `./images/emoji/${img}.png`,
+              text: commentInput.value,
+              deleted: 0
+            }
+
+            newData.comments.unshift(newComment); 
+            render(comment, new Comment(newData.comments[0]).element, `afterbegin`); 
+            
+            commentList.querySelector(`.film-details__comments-count`).innerHTML = newData.comments.filter(comment => comment.deleted === 0).length;        
+            this._onDataChange(newData, this._data);
+
+            const btnCommentDelete = this._filmDetail.element.querySelectorAll(`.film-details__comment-delete`);           
+            deleteComment(btnCommentDelete);
+
+            commentInput.value = ``;
+            emojiContainer.innerHTML = ``;
+          }
+        }
       });
     }
 
