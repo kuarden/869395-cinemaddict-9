@@ -173,17 +173,17 @@ export const getComment = () => ({
 export const getComments = () => new Array(getRandomInt(MAX_COMMENT)).fill().map(getComment);
 
 const getFilm = () => ({   
-    genres: getStickerArrayUnique(MAX_GENRES_COUNT, `, `, GENRES),
+    genres: getRandomElementOfArray(GENRES),
     title: getRandomElementOfArray(TITLES),
     poster: getRandomElementOfArray(POSTERS),
     releaseDate: getRandomElementOfArray(RELEASE_DATE),
     duration: getRandomElementOfArray(DURATION),
     rating: getRandomInt(MAX_RATING),
-    description: getStickerArrayUnique(MAX_DESCRIPTIONS_COUNT, ` `, DESCRIPTIONS),
+    description: getStickerArrayUnique(MAX_DESCRIPTIONS_COUNT, `, `, DESCRIPTIONS),
     director: getRandomElementOfArray(DIRECTORS),
     writers: getRandomElementOfArray(WRITERS),
     actors: getStickerArrayUnique(MAX_ACTORS_COUNT, `, `, ACTORS),
-    country: getStickerArrayUnique(MAX_COUNTRIES_COUNT, `, `, COUNTRIES),
+    country: getRandomElementOfArray(COUNTRIES),
     age: getRandomElementOfArray(AGE_CATEGORY),
     comments: getComments(getRandomRange(1, MAX_COMMENT)),
     watchlist: getRandomBool(),

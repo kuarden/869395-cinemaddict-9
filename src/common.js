@@ -1,3 +1,5 @@
+export const _ = require(`lodash`);
+
 export const getRandomBool = () => Boolean(Math.round(Math.random()));
 
 export const getRandomInt = (max) => Math.floor(Math.random() * max);
