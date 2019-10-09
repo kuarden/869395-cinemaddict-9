@@ -1,4 +1,5 @@
-import {_, render, clear} from "../common";
+import _ from "../common";
+import {render, clear} from "../common";
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {StatisticsData} from '../components/statistics-data.js';
@@ -52,8 +53,8 @@ export class StatisticsController {
 
   sortingData() {
     const genres = _.countBy(_.flatten(this._data.map((item) => item.genres)));
-    let arr = [];
-    let data = {amount: [], genres: [],};
+    const arr = [];
+    const data = {amount: [], genres: [],};
 
     for (let key in genres) {
       if (Object.prototype.hasOwnProperty.call(genres, key)) {

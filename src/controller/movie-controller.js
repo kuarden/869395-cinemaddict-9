@@ -1,4 +1,5 @@
-import {_, render, unrender, createElement, clear} from "../common";
+import _ from "../common";
+import {render, unrender, createElement, clear, shake} from "../common";
 import {FilmCard} from '../components/film-card';
 import {FilmDetail} from '../components/film-detail';
 import {FilmRating} from '../components/film-rating';
@@ -84,7 +85,6 @@ export class MovieController {
     }
 
     const renderFilmDetail = () => {       
-      event.preventDefault();  
       this._onChangeView();
 
       render(document.body, this._filmDetail.element, `beforeend`);
@@ -142,9 +142,10 @@ export class MovieController {
           if (emojiContainer.firstChild != null){      
             const newData = _.cloneDeep(this._data); 
             const img = emojiContainer.firstChild.id.trim();
+            const id = ++this._maxIdComment;
 
             const newComment = {    
-              id: `${++this._maxIdComment}`,
+              id: `${id}`,
               date: new Date(),
               author: `Yuri Voskoboinikov`,
               emoji: img,
@@ -155,9 +156,14 @@ export class MovieController {
               render(comment, new Comment(newComment).element, `beforeend`);
               const btnCommentDelete = this._filmDetail.element.querySelector(`.film-details__comments-list`).lastChild;             
               deleteComment(btnCommentDelete, newComment.id);
-            });
+              event.target.classList.remove(`input-error`);
+            })
+            .catch(() => {
+              event.target.disabled = false;
+              event.target.classList.add(`input-error`);
+            })
             
-            newData.commentsId.push(id);
+            newData.commentsId.push(`${id}`);
             commentList.querySelector(`.film-details__comments-count`).innerHTML = newData.commentsId.length;
             this._onDataChange(newData, this._data);
             this._data = newData;  
@@ -167,6 +173,17 @@ export class MovieController {
            }
          }
       });
+
+      if (this._data.watched) {
+        const ratingList = this._filmDetail.element.querySelector(`.film-details__user-rating-score`);
+        ratingList.addEventListener(`change`, () => {
+          const newData = _.cloneDeep(this._data); 
+          const ratingCheck = this._filmDetail.element.querySelector(`.film-details__user-rating-input:checked`);  
+          newData.userRating = ratingCheck.value;
+          this._onDataChange(newData, this._data);
+          this._filmDetail.element.querySelector(`.film-details__user-rating`).innerHTML = 'Your rating: ' + ratingCheck.value;
+        });
+      }
     }
 
     this._filmCard.element.querySelector(`.film-card__controls`).addEventListener(`click`, (event) => pressControl(event)); 

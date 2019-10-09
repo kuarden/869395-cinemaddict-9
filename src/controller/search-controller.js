@@ -14,9 +14,6 @@ export class SearchController {
     const filmAll = document.querySelectorAll(`.films-list__container`)[0].childNodes;       
     filmAll.forEach((film) => film.classList.add(`visually-hidden`));
 
-    const buttonShowMore = document.querySelector(`.films-list__show-more`);
-    buttonShowMore.classList.add(`visually-hidden`);
-
     const searchResultData = this._data.filter((film) => new RegExp(this._phrase, `i`).exec(film.title) !== null);
     
     const searchResult = document.querySelector(`.result`);   
@@ -28,6 +25,7 @@ export class SearchController {
 
   cancelSearchFilms() {
     const menu = document.querySelector(`.main-navigation`);
+
     menu.classList.remove(`visually-hidden`);
     
     const sort = document.querySelector(`.sort`);
@@ -35,9 +33,6 @@ export class SearchController {
  
     const filmAll = document.querySelectorAll(`.films-list__container`)[0].childNodes;       
     filmAll.forEach((film) => film.classList.remove(`visually-hidden`));
-
-    const buttonShowMore = document.querySelector(`.films-list__show-more`);
-    buttonShowMore.classList.remove(`visually-hidden`);
     
     const searchResult = document.querySelector(`.result`);   
     searchResult.classList.add(`visually-hidden`);

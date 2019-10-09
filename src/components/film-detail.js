@@ -21,6 +21,7 @@ export class FilmDetail extends AbstractComponent{
     this._watchlist = data.watchlist;
     this._watched = data.watched;
     this._favorite = data.favorite;
+    this._userRating = data.userRating;
   }
 
   get template() {
@@ -43,7 +44,9 @@ export class FilmDetail extends AbstractComponent{
               </div>
               <div class="film-details__rating">
                 <p class="film-details__total-rating">${this._rating}</p>
+                <p class="film-details__user-rating">${this._userRating && this._watched ? 'Your rating: ' + this._userRating : ``}</p>
               </div>
+              
             </div>
             <table class="film-details__table">
               <tr class="film-details__row">

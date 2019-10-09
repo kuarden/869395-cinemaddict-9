@@ -1,4 +1,6 @@
-export const _ = require(`lodash`);
+import {ANIMATION}  from './const';
+
+const _ = require(`lodash`);
 
 export const getRandomBool = () => Boolean(Math.round(Math.random()));
 
@@ -20,26 +22,6 @@ export const dateFormat = new Intl.DateTimeFormat(`en-GB`, {
     day: `numeric`,
     year: `numeric`
 });
-
-export const getStickerArrayUnique = (n, delimeter, array) => {
-  
-  let result = array.sort(function(){
-    return Math.random() - 0.5;
-  });
-  
-  return result.splice(0, getRandomInt(n) + 1).join(delimeter);
-};
-
-export const getStickerArrayNonUnique = (n, delimeter, array) => {
-  
-  let len = n > array.length ? array.length : n; 
-  let result = new Array();  
-  
-  for (let i = 0; i < len; i++){
-      result.push(getRandomElementOfArray(array));
-  }  
-  return result.join(delimeter);
-};
 
 export const createElement = (template) => {
   const el = document.createElement(`div`);
@@ -69,3 +51,14 @@ export const clear = (element) => {
     element.innerHTML = ``;
   }
 };
+
+export const shake = (container) => {
+  const ANIMATION_TIMEOUT = ANIMATION;
+  container.style.animation = `shake ${ANIMATION_TIMEOUT / 1000}s`
+  
+  setTimeout(() => {
+    container.style.animation = ``
+  }, ANIMATION_TIMEOUT);
+}
+
+export default _;

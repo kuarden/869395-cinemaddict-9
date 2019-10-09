@@ -18,7 +18,7 @@ export class FilmAdapter {
       this.watchlist = data.user_details.watchlist || false;
       this.watched = data.user_details.already_watched || false;
       this.favorite = data.user_details.favorite || false;
-      this.userScore = data.user_details.personal_rating;
+      this.userRating = data.user_details.personal_rating;
       this.watchingDate = data.user_details.watching_date || 0;
     }
   
@@ -47,7 +47,7 @@ export class FilmAdapter {
           'watchlist': data.watchlist,
           'already_watched': data.watched,
           'favorite': data.favorite,
-          'personal_rating': Number(data.userScore) || 0,
+          'personal_rating': Number(data.userRating) || 0,
           'watching_date': new Date(data.watchingDate),
         },
       };
