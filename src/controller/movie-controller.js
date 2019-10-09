@@ -1,21 +1,22 @@
-import {render, unrender, createElement, clear} from "../common";
+import {_, render, unrender, createElement, clear} from "../common";
 import {FilmCard} from '../components/film-card';
 import {FilmDetail} from '../components/film-detail';
 import {FilmRating} from '../components/film-rating';
 import {Comment} from '../components/comment';
 import {CommentsList} from '../components/comments-list';
+import {api} from "../main";
 
 export class MovieController {
-  constructor(container, data, onDataChange, onChangeView) {
+  constructor(container, data, maxIdComment, onDataChange, onChangeView) {   
     this._container = container;
     this._data = data;
     this._filmCard = new FilmCard(data);
     this._filmDetail = new FilmDetail(data);
     this._filmRating = new FilmRating(data);
-    this._comments = this._comments = data.comments.filter(comment => comment.deleted === 0);
+    this._maxIdComment = maxIdComment;
     this._onDataChange = onDataChange;
     this._onChangeView = onChangeView;
-    this.init();
+    this.init(); 
   }  
 
   init() {   
@@ -24,32 +25,32 @@ export class MovieController {
       this._filmDetail.removeElement;
       document.removeEventListener(`keydown`, pressEsc);
     }
-      
+
     const pressEsc = (event) => {     
       if (event.keyCode === 27){
         closeFilmDetail();
       }
     }
 
-    const pressControl = (event) => {     
-      if (event.target.tagName === `LABEL` && event.target.tagName === `INPUT`) {
-        event.preventDefault();
-        event.target.classList.toggle(`film-card__controls-item--active`);
-      }
-      switch (event.target.dataset.controlType) {
-        case `watchlist`:
-          this._data.watchlist = !this._data.watchlist;
-          this._onDataChange(this._data, this._data);
-        break;
+    const pressControl = (event) => {  
+      if (event.target.tagName !== `INPUT` && event.target.tagName !== `BUTTON`)  {
+        return false
+      }   
+      const newData = _.cloneDeep(this._data);
+      switch (event.target.dataset.controlType) {      
+        case `watchlist`:   
+          newData.watchlist = !newData.watchlist;         
+          break;
         case `watched`:
-          this._data.watched = !this._data.watched;
-          this._onDataChange(this._data, this._data);
-        break;
+          newData.watched = !newData.watched;
+          break;
         case `favorite`:
-          this._data.favorite = !this._data.favorite;
-          this._onDataChange(this._data, this._data);
-        break;
+          newData.favorite = !newData.favorite;
+          break;
       }
+      api.update(newData).then(() => {});
+      this._onDataChange(newData, this._data);
+      this._data = newData;
     }
 
     const showRating = (show) => {     
@@ -63,22 +64,27 @@ export class MovieController {
        }
     }
 
-    const deleteComment = (container) => {
-      container.forEach((btn, commentNumber) => {            
-        btn.addEventListener(`click`, (event) => {                
-          const newData = this._data;
-          event.preventDefault();
-          event.target.closest(`.film-details__comment`).remove();
-          newData.comments[commentNumber].deleted = 1;       
-          this._onDataChange(newData, this._data);
-          this._filmDetail.element.querySelector(`.film-details__comments-count`).innerHTML = newData.comments.filter(comment => comment.deleted === 0).length;  
-        });
-      });  
+    const deleteComment = (container, id) => {     
+      container.addEventListener(`click`, (event) => {       
+        event.preventDefault();   
+
+        const newData = _.cloneDeep(this._data);
+        const i = newData.commentsId.indexOf(id);
+        if (i != -1) newData.commentsId.splice(i, 1);
+        
+        api.update(newData).then(() => {});
+        api.delete(id).then(() => {});
+        
+        event.target.closest(`.film-details__comment`).remove(); 
+
+        this._filmDetail.element.querySelector(`.film-details__comments-count`).innerHTML = newData.commentsId.length;
+        this._onDataChange(newData, this._data);
+        this._data = newData;      
+      });
     }
 
-    const renderFilmDetail = () => {     
-      event.preventDefault();
-      
+    const renderFilmDetail = () => {       
+      event.preventDefault();  
       this._onChangeView();
 
       render(document.body, this._filmDetail.element, `beforeend`);
@@ -97,13 +103,17 @@ export class MovieController {
       btnWatched.addEventListener(`click`, () => showRating(btnWatched.checked)); 
  
       const commentList = this._filmDetail.element.querySelector(`.form-details__bottom-container`);
-      render(commentList, new CommentsList(this._comments.length).element, `beforeend`);
-
-      const comment = this._filmDetail.element.querySelector(`.film-details__comments-list`);
-      for (let i = 0; i < this._comments.length; i++){
-        render(comment, new Comment(this._comments[i]).element, `beforeend`);
-      }
-
+      render(commentList, new CommentsList(this._data.commentsId.length).element, `beforeend`);
+      
+      const comment = this._filmDetail.element.querySelector(`.film-details__comments-list`);     
+      api.comments(this._data.id).then((data) => {
+        for (let i = 0; i < data.length; i++){
+          render(comment, new Comment(data[i]).element, `beforeend`);
+          const btnCommentDelete = this._filmDetail.element.querySelectorAll(`.film-details__comment-delete`)[i];
+          deleteComment(btnCommentDelete, data[i].id);
+        }
+      });
+  
       const commentInput = this._filmDetail.element.querySelector(`.film-details__comment-input`);           
       document.addEventListener(`keydown`, pressEsc);
       commentInput.addEventListener(`blur`, () => {
@@ -125,38 +135,37 @@ export class MovieController {
         });
       });
 
-      const btnCommentDelete = this._filmDetail.element.querySelectorAll(`.film-details__comment-delete`);
-      deleteComment(btnCommentDelete);
-
       commentInput.addEventListener(`keydown`, (event) => {
-        if (event.keyCode === 13){
+        if (event.keyCode === 13) {  
+          event.preventDefault();       
           const emojiContainer = commentList.querySelector(`.film-details__add-emoji-label`);            
-          if (emojiContainer.firstChild != null){
-            
-            const newData = this._data;  
+          if (emojiContainer.firstChild != null){      
+            const newData = _.cloneDeep(this._data); 
             const img = emojiContainer.firstChild.id.trim();
-            
+
             const newComment = {    
+              id: `${++this._maxIdComment}`,
               date: new Date(),
               author: `Yuri Voskoboinikov`,
-              emoji: `./images/emoji/${img}.png`,
-              text: commentInput.value,
-              deleted: 0
+              emoji: img,
+              text: commentInput.value
             }
 
-            newData.comments.unshift(newComment); 
-            render(comment, new Comment(newData.comments[0]).element, `afterbegin`); 
+            api.create(newComment, this._data.id).then(() => {
+              render(comment, new Comment(newComment).element, `beforeend`);
+              const btnCommentDelete = this._filmDetail.element.querySelector(`.film-details__comments-list`).lastChild;             
+              deleteComment(btnCommentDelete, newComment.id);
+            });
             
-            commentList.querySelector(`.film-details__comments-count`).innerHTML = newData.comments.filter(comment => comment.deleted === 0).length;        
+            newData.commentsId.push(id);
+            commentList.querySelector(`.film-details__comments-count`).innerHTML = newData.commentsId.length;
             this._onDataChange(newData, this._data);
-
-            const btnCommentDelete = this._filmDetail.element.querySelectorAll(`.film-details__comment-delete`);           
-            deleteComment(btnCommentDelete);
+            this._data = newData;  
 
             commentInput.value = ``;
             emojiContainer.innerHTML = ``;
-          }
-        }
+           }
+         }
       });
     }
 

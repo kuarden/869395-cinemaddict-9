@@ -7,6 +7,7 @@ export class FilmDetail extends AbstractComponent{
     super();
     this._genres = data.genres;
     this._title = data.title;
+    this._titleAlternative = data.titleAlternative;
     this._poster = data.poster;
     this._releaseDate = data.releaseDate;
     this._duration = data.duration;
@@ -32,13 +33,13 @@ export class FilmDetail extends AbstractComponent{
         <div class="film-details__info-wrap">
           <div class="film-details__poster">
             <img class="film-details__poster-img" src="${this._poster}" alt="">
-            <p class="film-details__age">${this._age}</p>
+            <p class="film-details__age">${this._age}+</p>
           </div>
           <div class="film-details__info">
             <div class="film-details__info-head">
               <div class="film-details__title-wrap">
                 <h3 class="film-details__title">${this._title}</h3>
-                <p class="film-details__title-original">${this._title} (original)</p>
+                <p class="film-details__title-original">${this._titleAlternative}</p>
               </div>
               <div class="film-details__rating">
                 <p class="film-details__total-rating">${this._rating}</p>

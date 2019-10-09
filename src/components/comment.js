@@ -6,7 +6,7 @@ export class Comment extends AbstractComponent{
     super();
     this._date = data.date;
     this._author = data.author;
-    this._emoji = data.emoji;
+    this._emoji = `./images/emoji/${data.emoji}.png`;
     this._text = data.text;
   }
 
