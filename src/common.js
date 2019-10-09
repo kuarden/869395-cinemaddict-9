@@ -37,8 +37,7 @@ export const getStickerArrayNonUnique = (n, delimeter, array) => {
   
   for (let i = 0; i < len; i++){
       result.push(getRandomElementOfArray(array));
-  }
-  
+  }  
   return result.join(delimeter);
 };
 

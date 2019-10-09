@@ -12,7 +12,7 @@ export class FilmCard extends AbstractComponent{
     this._genres = data.genres;
     this._poster = data.poster;
     this._description = data.description;   
-    this._comments = data.comments.filter(comment => comment.deleted === 0).length;
+    this._comments = data.commentsId.length;
     this._watchlist = data.watchlist;
     this._watched = data.watched;
     this._favorite = data.favorite;    
